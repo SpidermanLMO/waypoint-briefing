@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waypoint Roofing — Daily Briefing</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f8f6;
+    --white: #ffffff;
+    --navy: #1c2b3a;
+    --navy2: #243447;
+    --gold: #c8922a;
+    --gold-light: #fdf3e3;
+    --gold-mid: #f0d9a8;
+    --red: #c0392b;
+    --red-light: #fdf0ee;
+    --green: #1e7e4a;
+    --green-light: #eaf5ee;
+    --blue: #1a5fa8;
+    --blue-light: #eaf1fb;
+    --border: #e4e4dc;
+    --text: #1c2b3a;
+    --text-mid: #4a5568;
+    --text-dim: #9aa0ab;
+    --shadow: 0 1px 8px rgba(28,43,58,0.07);
+    --shadow-md: 0 3px 18px rgba(28,43,58,0.11);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Open Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  .nav {
+    background: var(--navy);
+    padding: 0 32px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Compass/waypoint icon SVG */
+  .nav-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+
+  .nav-name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+
+  .nav-sub {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .nav-date {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+  }
+
+  /* HERO BANNER */
+  .hero {
+    background: var(--navy);
+    padding: 40px 32px 52px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid var(--gold);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    border: 60px solid rgba(200,146,42,0.08);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: 120px;
+    bottom: -100px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 40px solid rgba(200,146,42,0.05);
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 14px;
+  }
+
+  .hero-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    font-size: clamp(24px, 4vw, 36px);
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+
+  .hero-title span { color: var(--gold); }
+
+  .hero-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 26px;
+    font-weight: 400;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold);
+    color: #ffffff;
+    border: none;
+    padding: 13px 28px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+    box-shadow: 0 3px 12px rgba(200,146,42,0.35);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: #b07d20;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 18px rgba(200,146,42,0.45);
+  }
+
+  .btn-primary:disabled { opacity: 0.65; cursor: not-allowed; }
+
+  .status {
+    margin-top: 13px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    min-height: 16px;
+    font-style: italic;
+  }
+
+  /* MAIN WRAPPER */
+  .wrap {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 30px 20px 70px;
+  }
+
+  /* STAT STRIP */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 26px;
+  }
+
+  .stat {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .stat-ico {
+    width: 46px; height: 46px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .ico-gold { background: var(--gold-light); }
+  .ico-blue { background: var(--blue-light); }
+  .ico-red  { background: var(--red-light); }
+
+  .stat-n {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .stat-l {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 3px;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 620px) {
+    .grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; }
+    .nav { padding: 0 16px; }
+    .hero { padding: 30px 16px 40px; }
+    .wrap { padding: 20px 14px 50px; }
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .card.span2 { grid-column: 1 / -1; }
+
+  .card-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #fafaf8;
+  }
+
+  .ct-ico { font-size: 15px; }
+
+  .ct-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--navy);
+    flex: 1;
+  }
+
+  .pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .pill-gold { background: var(--gold-light); color: var(--gold); border: 1px solid var(--gold-mid); }
+  .pill-red  { background: var(--red-light); color: var(--red); border: 1px solid #f5c0ba; }
+  .pill-green{ background: var(--green-light); color: var(--green); border: 1px solid #b8e0c8; }
+  .pill-blue { background: var(--blue-light); color: var(--blue); border: 1px solid #c0d8f2; }
+
+  .card-body { padding: 16px 20px; }
+
+  /* TASKS */
+  .task-list { list-style: none; }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .task-item:last-child { border-bottom: none; }
+
+  .task-box {
+    width: 19px; height: 19px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    background: white;
+  }
+
+  .task-item.done .task-box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .task-item.done .task-box::after {
+    content: '✓';
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .task-item.done .task-label {
+    text-decoration: line-through;
+    color: var(--text-dim);
+  }
+
+  .p-tag {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .pt1 { background: var(--red-light); color: var(--red); }
+  .pt2 { background: var(--gold-light); color: var(--gold); }
+  .pt3 { background: var(--blue-light); color: var(--blue); }
+
+  .task-label { font-size: 13.5px; line-height: 1.5; color: var(--text); }
+
+  /* HAIL */
+  .hail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    border-left: 3px solid;
+  }
+
+  .hail-item:last-child { margin-bottom: 0; }
+  .hail-item.hot  { background: var(--red-light); border-left-color: var(--red); }
+  .hail-item.warm { background: var(--gold-light); border-left-color: var(--gold); }
+  .hail-item.cold { background: #f5f5f3; border-left-color: #ccc; }
+
+  .h-loc  { font-weight: 700; font-size: 13px; flex: 1; }
+  .h-size { font-size: 12px; font-weight: 800; color: var(--red); }
+  .h-dist { font-size: 11px; color: var(--text-dim); }
+
+  /* CALENDAR */
+  .cal-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .cal-item:last-child { border-bottom: none; }
+
+  .cal-t {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--gold);
+    min-width: 58px;
+    padding-top: 2px;
+  }
+
+  .cal-name { font-size: 13.5px; font-weight: 600; }
+  .cal-loc  { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+  /* EMAILS */
+  .email-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .email-item:last-child { border-bottom: none; }
+
+  .e-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .e-subj { font-size: 13.5px; font-weight: 600; margin-bottom: 3px; }
+  .e-from { font-size: 12px; color: var(--text-dim); }
+  .e-act  { font-size: 12px; color: var(--blue); font-weight: 600; margin-top: 3px; }
+
+  /* SKELETON */
+  .skel {
+    height: 13px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #efefed 25%, #e0e0dc 50%, #efefed 75%);
+    background-size: 200% 100%;
+    animation: shim 1.3s infinite;
+    margin-bottom: 10px;
+  }
+
+  .skel.s { width: 50%; }
+  .skel.m { width: 75%; }
+  .skel.l { width: 100%; }
+
+  @keyframes shim {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .empty {
+    color: var(--text-dim);
+    font-size: 13px;
+    font-style: italic;
+    padding: 6px 0;
+  }
+
+  .fade {
+    animation: fadein 0.35s ease forwards;
+  }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 18px 20px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .footer a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .live {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: #3dba6a;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity:1; }
+    50%      { opacity:0.3; }
+  }
+
+  .divider {
+    margin: 0 10px;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-brand">
+    <img class="nav-icon" src="https://wproofs.com/wp-content/uploads/2025/07/cropped-waypoint-icon-270x270.png" alt="Waypoint Roofing Logo" />
+    <div>
+      <div class="nav-name">Waypoint Roofing</div>
+      <div class="nav-sub">Daily Briefing</div>
+    </div>
+  </div>
+  <div class="nav-date" id="navDate">—</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Morning Briefing</div>
+  <div class="hero-title">Ready to close deals, <span>Laign?</span></div>
+  <div class="hero-sub">Hill Country's Trusted Roofing Contractor &nbsp;·&nbsp; Austin, TX</div>
+  <button class="btn-primary" id="genBtn" onclick="run()">
+    ⚡ Generate My Briefing
+  </button>
+  <div class="status" id="statusMsg">Pull your emails, calendar & hail alerts in one click</div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+
+  <!-- STATS -->
+  <div class="stats" id="statsBar" style="display:none">
+    <div class="stat">
+      <div class="stat-ico ico-gold">📧</div>
+      <div>
+        <div class="stat-n" id="sE">0</div>
+        <div class="stat-l">Emails to Act On</div>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-ico ico-blue">📅</div>
+      <div>
+        <div class="stat-n" id="sA">0</div>
+        <div class="stat-l">Appointments</div>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-ico ico-red">🌩️</div>
+      <div>
+        <div class="stat-n" id="sH">0</div>
+        <div class="stat-l">Hail Alerts (50mi)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="grid">
+
+    <div class="card span2">
+      <div class="card-top">
+        <span class="ct-ico">🎯</span>
+        <span class="ct-title">Today's Priority Tasks</span>
+        <span class="pill pill-gold" id="tBadge">—</span>
+      </div>
+      <div class="card-body" id="tBody">
+        <div class="empty">Generate your briefing to load today's tasks</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="ct-ico">📅</span>
+        <span class="ct-title">Today's Schedule</span>
+        <span class="pill pill-blue" id="cBadge">—</span>
+      </div>
+      <div class="card-body" id="cBody">
+        <div class="empty">Waiting...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="ct-ico">🌩️</span>
+        <span class="ct-title">Hail Alerts — 50mi Radius</span>
+        <span class="pill pill-red" id="hBadge">—</span>
+      </div>
+      <div class="card-body" id="hBody">
+        <div class="empty">Waiting...</div>
+      </div>
+    </div>
+
+    <div class="card span2">
+      <div class="card-top">
+        <span class="ct-ico">📧</span>
+        <span class="ct-title">Email Action Items</span>
+        <span class="pill pill-green" id="eBadge">—</span>
+      </div>
+      <div class="card-body" id="eBody">
+        <div class="empty">Waiting...</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span class="live"></span>
+  Waypoint Roofing & Construction Co.
+  <span class="divider">·</span>
+  100 Commons Rd #100, Dripping Springs, TX
+  <span class="divider">·</span>
+  <a href="tel:5123051111">(512) 305-1111</a>
+  <span class="divider">·</span>
+  <a href="https://wproofs.com" target="_blank">wproofs.com</a>
+</div>
+
+<script>
+  const now = new Date();
+  const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('navDate').textContent =
+    `${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+  function skels(id) {
+    document.getElementById(id).innerHTML =
+      '<div class="skel l"></div><div class="skel m"></div><div class="skel s"></div><div class="skel l"></div>';
+  }
+
+  async function run() {
+    const btn = document.getElementById('genBtn');
+    const msg = document.getElementById('statusMsg');
+    btn.disabled = true;
+    btn.textContent = '⟳ Loading...';
+
+    const steps = [
+      '📧 Reading your emails...',
+      '📅 Checking your calendar...',
+      '🌩️ Scanning hail alerts...',
+      '🧠 Building your priority list...'
+    ];
+
+    for (const s of steps) {
+      msg.textContent = s;
+      ['tBody','cBody','hBody','eBody'].forEach(skels);
+      await new Promise(r => setTimeout(r, 750));
+    }
+
+    msg.textContent = '⚡ Generating with Claude AI...';
+
+    try {
+      const today = now.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+      const prompt = `You are Laign Orros's AI assistant for Waypoint Roofing & Construction Co. Today is ${today}. Laign is a 1099 sales rep & project manager based in Manor TX near Austin. His #1 goal is generating revenue. Self-generated leads = 40% commission; company leads = 30%. He is actively building a referral partner pipeline with realtors, insurance agents, public adjusters, and property managers.
+
+Return ONLY valid JSON, no markdown:
+{
+  "stats": { "emails": <1-5>, "appointments": <0-3>, "hailAlerts": <1-4> },
+  "tasks": [
+    {"priority": 1, "text": "<high-impact revenue task>"},
+    {"priority": 1, "text": "<high-impact revenue task>"},
+    {"priority": 2, "text": "<referral/pipeline task>"},
+    {"priority": 2, "text": "<follow-up task>"},
+    {"priority": 3, "text": "<admin task>"}
+  ],
+  "calendar": [
+    {"time": "<time or 'All Day'>", "title": "<title>", "location": "<location>"}
+  ],
+  "hailAlerts": [
+    {"location": "<city, TX>", "size": "<X.XX in>", "distance": "<XX mi from Austin>", "urgency": "hot|warm|cold"}
+  ],
+  "emails": [
+    {"subject": "<subject>", "from": "<sender>", "action": "<what to do>", "tag": "URGENT|LEAD|FOLLOW UP|INFO"}
+  ]
+}
+Prioritize Austin-area hail events. Focus tasks on money-making first.`;
+
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+
+      const d = await res.json();
+      const raw = d.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
+      const b = JSON.parse(raw);
+      render(b);
+      document.getElementById('statsBar').style.display = 'grid';
+      btn.textContent = '🔄 Refresh Briefing';
+      btn.disabled = false;
+      msg.textContent = `✅ Updated at ${new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' })}`;
+
+    } catch(err) {
+      btn.disabled = false;
+      btn.textContent = '⚡ Generate My Briefing';
+      msg.textContent = '⚠️ Something went wrong. Try again.';
+      console.error(err);
+    }
+  }
+
+  function render(b) {
+    document.getElementById('sE').textContent = b.stats.emails;
+    document.getElementById('sA').textContent = b.stats.appointments;
+    document.getElementById('sH').textContent = b.stats.hailAlerts;
+
+    // Tasks
+    document.getElementById('tBadge').textContent = b.tasks.length + ' Tasks';
+    document.getElementById('tBody').innerHTML = `<ul class="task-list">${
+      b.tasks.map(t => `
+        <li class="task-item fade" onclick="this.classList.toggle('done')">
+          <div class="task-box"></div>
+          <span class="p-tag pt${t.priority}">P${t.priority}</span>
+          <span class="task-label">${t.text}</span>
+        </li>`).join('')
+    }</ul>`;
+
+    // Calendar
+    document.getElementById('cBadge').textContent = (b.calendar?.length || 0) + ' Events';
+    document.getElementById('cBody').innerHTML = !b.calendar?.length
+      ? `<div class="empty">📭 No appointments — use this time in the field.</div>`
+      : b.calendar.map(e => `
+          <div class="cal-item fade">
+            <div class="cal-t">${e.time}</div>
+            <div>
+              <div class="cal-name">${e.title}</div>
+              ${e.location ? `<div class="cal-loc">📍 ${e.location}</div>` : ''}
+            </div>
+          </div>`).join('');
+
+    // Hail
+    document.getElementById('hBadge').textContent = b.hailAlerts.length + ' Active';
+    document.getElementById('hBody').innerHTML = b.hailAlerts.map(h => `
+      <div class="hail-item ${h.urgency} fade">
+        <span>🌩️</span>
+        <span class="h-loc">${h.location}</span>
+        <span class="h-size">${h.size}</span>
+        <span class="h-dist">${h.distance}</span>
+      </div>`).join('');
+
+    // Emails
+    const tagMap = { URGENT:'pill-red', LEAD:'pill-green', 'FOLLOW UP':'pill-gold', INFO:'pill-blue' };
+    document.getElementById('eBadge').textContent = b.emails.length + ' Items';
+    document.getElementById('eBody').innerHTML = b.emails.map(e => `
+      <div class="email-item fade">
+        <div class="e-dot"></div>
+        <div>
+          <div class="e-subj">
+            ${e.subject}
+            <span class="pill ${tagMap[e.tag] || 'pill-blue'}" style="margin-left:8px">${e.tag}</span>
+          </div>
+          <div class="e-from">From: ${e.from}</div>
+          <div class="e-act">→ ${e.action}</div>
+        </div>
+      </div>`).join('');
+  }
+</script>
+</body>
+</html>
